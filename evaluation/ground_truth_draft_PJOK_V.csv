@@ -1,0 +1,8 @@
+id,subject,grade,book_code,question,ground_truth,reference_chunks
+1,PJOK,5,PJOK_V,Apa yang dimaksud dengan keterampilan gerak?,"Keterampilan gerak adalah cara tubuh bergerak, seperti berlari, melompat, atau melempar.","PJOK_V_CH0032; PJOK_V_CH0056"
+2,PJOK,5,PJOK_V,Apa manfaat mempelajari keterampilan gerak?,"Dengan mempelajari keterampilan gerak, tubuh menjadi lebih kuat dan sehat serta lebih percaya diri untuk beraktivitas.","PJOK_V_CH0032; PJOK_V_CH0056"
+3,PJOK,5,PJOK_V,Mengapa kita perlu menyesuaikan kekuatan lompatan saat melewati rintangan?,"Kita perlu menyesuaikan kekuatan lompatan agar dapat melewati rintangan tanpa menjatuhkan bola.","PJOK_V_CH0061; PJOK_V_CH0064"
+4,PJOK,5,PJOK_V,Mengapa keseimbangan penting saat berjalan atau berlari melewati rintangan sambil membawa bola?,"Keseimbangan penting agar kita tidak kehilangan kendali gerakan dan tetap dapat menjaga bola saat melewati rintangan.","PJOK_V_CH0061; PJOK_V_CH0064"
+5,PJOK,5,PJOK_V,Bagaimana cara mengatur kecepatan saat menghadapi rintangan?,"Saat menghadapi rintangan, kita perlu memperlambat langkah untuk bersiap melewatinya dan mempercepat langkah saat lintasan lebih aman atau tanpa rintangan.","PJOK_V_CH0064; PJOK_V_CH0070"
+6,PJOK,5,PJOK_V,Mengapa koordinasi mata kaki dan tangan penting saat mengubah arah gerak?,"Koordinasi mata, kaki, dan tangan penting agar kita dapat bergerak cepat ke arah yang dituju dengan tetap seimbang dan terkendali.","PJOK_V_CH0071"
+7,PJOK,5,PJOK_V,Bagaimana strategi agar dapat menghindari rintangan hidup dengan aman?,"Strateginya adalah mengatur kecepatan lari, memilih arah menghindar yang tepat, serta menjaga keseimbangan tubuh agar tidak tergelincir atau jatuh.","PJOK_V_CH0082; PJOK_V_CH0084"

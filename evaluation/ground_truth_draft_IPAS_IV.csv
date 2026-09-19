@@ -1,0 +1,8 @@
+id,subject,grade,book_code,question,ground_truth,reference_chunks
+1,IPAS,4,IPAS_IV,Apa yang dimaksud dengan perubahan energi?,"Perubahan energi adalah perubahan suatu bentuk energi menjadi bentuk energi yang lain agar dapat dimanfaatkan dalam kehidupan sehari-hari.","IPAS_IV_CH0019; IPAS_IV_CH0025"
+2,IPAS,4,IPAS_IV,Mengapa manusia mengubah bentuk energi?,"Manusia mengubah bentuk energi karena manusia tidak dapat menciptakan energi. Agar energi dapat dimanfaatkan, bentuk energi yang ada diubah menjadi bentuk lain yang sesuai kebutuhan.","IPAS_IV_CH0019; IPAS_IV_CH0086"
+3,IPAS,4,IPAS_IV,Bagaimana perubahan energi yang terjadi pada lampu?,"Pada lampu terjadi perubahan energi listrik menjadi energi cahaya.","IPAS_IV_CH0086"
+4,IPAS,4,IPAS_IV,Bagaimana perubahan energi yang terjadi pada baterai?,"Pada baterai terjadi perubahan energi kimia menjadi energi listrik. Dalam alat tertentu, perubahan energi ini dapat berlanjut menjadi bentuk energi yang lain.","IPAS_IV_CH0041; IPAS_IV_CH0086"
+5,IPAS,4,IPAS_IV,Apa yang dimaksud dengan fotosintesis?,"Fotosintesis adalah proses tumbuhan membuat makanannya sendiri dengan memanfaatkan energi cahaya Matahari.","IPAS_IV_CH0054; IPAS_IV_CH0077"
+6,IPAS,4,IPAS_IV,Apa saja yang dibutuhkan tumbuhan untuk melakukan fotosintesis?,"Untuk melakukan fotosintesis, tumbuhan membutuhkan cahaya Matahari, air, karbon dioksida, dan klorofil.","IPAS_IV_CH0060; IPAS_IV_CH0062; IPAS_IV_CH0068"
+7,IPAS,4,IPAS_IV,Mengapa fotosintesis penting bagi makhluk hidup?,"Fotosintesis penting karena membuat tumbuhan menghasilkan makanan dan oksigen yang dibutuhkan makhluk hidup.","IPAS_IV_CH0069; IPAS_IV_CH0076; IPAS_IV_CH0077"

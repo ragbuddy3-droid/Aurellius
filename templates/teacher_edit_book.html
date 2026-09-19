@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% set title = "Edit Buku Guru" %}
+{% set brand_title = "Bonibot/Edit Buku" %}
+
+{% block content %}
+<section class="teacher-layout">
+    <div class="teacher-shell">
+        <div class="teacher-hero">
+            <div>
+                <p class="teacher-eyebrow">Panel Guru</p>
+                <h1>Edit buku dan heading yang sudah tersimpan</h1>
+                <p>Guru dapat memperbarui identitas buku, daftar heading, fungsi section, serta keterangan heading tanpa perlu mengunggah ulang file PDF.</p>
+            </div>
+            <div class="teacher-hero-badge">
+                <span>ID Buku</span>
+                <strong>#{{ book.id }}</strong>
+            </div>
+        </div>
+
+        {% if error %}
+        <div class="teacher-alert teacher-alert-error">
+            <strong>Perubahan belum tersimpan</strong>
+            <span>{{ error }}</span>
+        </div>
+        {% endif %}
+
+        <div class="teacher-grid">
+            <div class="teacher-card">
+                <div class="teacher-card-head">
+                    <h2>Form edit buku</h2>
+                    <p>Setelah data diperbarui, status buku akan kembali menjadi <strong>uploaded</strong> agar guru dapat menjalankan proses index ulang.</p>
+                </div>
+
+                <form method="post" class="teacher-form" id="teacher-edit-form">
+                    <div class="teacher-inline-fields">
+                        <label class="teacher-field">
+                            <span>Judul Buku</span>
+                            <input type="text" name="book_title" value="{{ form_data.book_title }}" required>
+                        </label>
+                        <label class="teacher-field">
+                            <span>Mata Pelajaran</span>
+                            <input type="text" name="subject" value="{{ form_data.subject }}" required>
+                        </label>
+                    </div>
+
+                    <div class="teacher-inline-fields">
+                        <label class="teacher-field">
+                            <span>Kelas</span>
+                            <input type="text" name="grade" value="{{ form_data.grade }}" required>
+                        </label>
+                        <label class="teacher-field">
+                            <span>File PDF Saat Ini</span>
+                            <input type="text" value="{{ book.pdf_filename }}" disabled>
+                        </label>
+                    </div>
+
+                    <div class="teacher-field">
+                        <span>Daftar Heading</span>
+                        <div class="teacher-table-wrap">
+                            <div class="teacher-table teacher-table-head">
+                                <div>Nama Heading</div>
+                                <div>Fungsi Section</div>
+                                <div>Keterangan</div>
+                                <div>Aksi</div>
+                            </div>
+                            <div id="heading-table-body">
+                                {% for heading in form_data.heading_entries %}
+                                <div class="teacher-table teacher-table-row">
+                                    <input type="text" name="heading_name" value="{{ heading.name }}" placeholder="Contoh: Tujuan Pembelajaran" required>
+                                    <select name="heading_mode">
+                                        <option value="GENERAL"{% if heading.section_mode == "GENERAL" %} selected{% endif %}>General</option>
+                                        <option value="INSTRUKSI"{% if heading.section_mode == "INSTRUKSI" %} selected{% endif %}>Instruksi</option>
+                                        <option value="EVALUASI"{% if heading.section_mode == "EVALUASI" %} selected{% endif %}>Evaluasi</option>
+                                    </select>
+                                    <textarea name="heading_description" placeholder="Contoh: Menjelaskan kompetensi yang perlu dicapai siswa.">{{ heading.description }}</textarea>
+                                    <div class="teacher-row-action">
+                                        <button type="button" class="teacher-remove-row">Hapus</button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <button type="button" class="teacher-add-row" id="add-heading-row">+ Tambah heading</button>
+                    </div>
+
+                    <label class="teacher-field">
+                        <span>Catatan Tambahan</span>
+                        <textarea name="notes" placeholder="Catatan opsional untuk guru atau admin.">{{ form_data.notes }}</textarea>
+                    </label>
+
+                    <div class="teacher-action-group">
+                        <button type="submit" class="teacher-submit">Simpan Perubahan</button>
+                        <a href="{{ url_for('teacher_books_page') }}" class="teacher-cancel-link">Batal</a>
+                    </div>
+                </form>
+            </div>
+
+            <aside class="teacher-sidecard">
+                <div class="teacher-card">
+                    <div class="teacher-card-head">
+                        <h2>Informasi Buku</h2>
+                        <p>Ringkasan data buku yang sedang diedit.</p>
+                    </div>
+                    <div class="books-meta-grid books-meta-grid-single">
+                        <div class="books-meta-item">
+                            <span>Status Saat Ini</span>
+                            <strong>{{ book.processing_status }}</strong>
+                        </div>
+                        <div class="books-meta-item">
+                            <span>Upload Awal</span>
+                            <strong>{{ book.created_at.strftime('%d-%m-%Y %H:%M') if book.created_at else '-' }}</strong>
+                        </div>
+                        <div class="books-meta-item">
+                            <span>Jumlah Heading</span>
+                            <strong>{{ book.headings|length }}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="teacher-card">
+                    <div class="teacher-card-head">
+                        <h2>Catatan Penggunaan</h2>
+                        <p>Tips singkat saat memperbarui data buku guru.</p>
+                    </div>
+                    <div class="teacher-note-list">
+                        <div class="teacher-note-item">
+                            <strong>1. Edit heading seperlunya</strong>
+                            <p>Gunakan mode <em>Instruksi</em> atau <em>Evaluasi</em> hanya untuk section heading yang memang bersifat aktivitas atau penilaian.</p>
+                        </div>
+                        <div class="teacher-note-item">
+                            <strong>2. Jalankan index ulang</strong>
+                            <p>Setelah perubahan disimpan, jalankan proses indexing dari halaman upload agar knowledge base chatbot ikut diperbarui.</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<script>
+const headingTableBody = document.getElementById("heading-table-body");
+const addHeadingRowButton = document.getElementById("add-heading-row");
+
+function createHeadingRow() {
+    const row = document.createElement("div");
+    row.className = "teacher-table teacher-table-row";
+    row.innerHTML = `
+        <input type="text" name="heading_name" placeholder="Contoh: Tujuan Pembelajaran" required>
+        <select name="heading_mode">
+            <option value="GENERAL" selected>General</option>
+            <option value="INSTRUKSI">Instruksi</option>
+            <option value="EVALUASI">Evaluasi</option>
+        </select>
+        <textarea name="heading_description" placeholder="Contoh: Menjelaskan kompetensi yang perlu dicapai siswa."></textarea>
+        <div class="teacher-row-action">
+            <button type="button" class="teacher-remove-row">Hapus</button>
+        </div>
+    `;
+    return row;
+}
+
+addHeadingRowButton.addEventListener("click", () => {
+    headingTableBody.appendChild(createHeadingRow());
+});
+
+headingTableBody.addEventListener("click", (event) => {
+    if (!event.target.classList.contains("teacher-remove-row")) return;
+    const rows = headingTableBody.querySelectorAll(".teacher-table-row");
+    if (rows.length <= 1) return;
+    event.target.closest(".teacher-table-row").remove();
+});
+</script>
+{% endblock %}

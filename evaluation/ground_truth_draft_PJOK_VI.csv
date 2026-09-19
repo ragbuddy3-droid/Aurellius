@@ -1,0 +1,8 @@
+id,subject,grade,book_code,question,ground_truth,reference_chunks
+1,PJOK,6,PJOK_VI,Apa manfaat berolahraga secara rutin?,"Berolahraga secara rutin bermanfaat untuk menjaga kesehatan dan kebugaran tubuh serta membantu meningkatkan kemampuan berpikir dan kreativitas.","PJOK_VI_CH0002"
+2,PJOK,6,PJOK_VI,Apa peran mata pelajaran PJOK bagi peserta didik?,"PJOK berperan mendorong pertumbuhan fisik, perkembangan psikis, keterampilan motorik, pengetahuan, penalaran, penghayatan nilai, dan pembiasaan pola hidup sehat.","PJOK_VI_CH0010"
+3,PJOK,6,PJOK_VI,Sikap apa saja yang ditekankan dalam pembelajaran PJOK?,"Pembelajaran PJOK menekankan sikap jujur, disiplin, tanggung jawab, kerja sama, percaya diri, dan sportif.","PJOK_VI_CH0004"
+4,PJOK,6,PJOK_VI,Olahraga apa saja yang termasuk permainan bola besar pada bab ini?,"Permainan bola besar yang dipelajari pada bab ini adalah sepak bola, bola voli, dan bola basket.","PJOK_VI_CH0086; PJOK_VI_CH0091"
+5,PJOK,6,PJOK_VI,Mengapa perlengkapan keamanan penting digunakan saat bermain sepak bola?,"Perlengkapan keamanan penting digunakan untuk mengurangi risiko cedera saat bermain sepak bola.","PJOK_VI_CH0093"
+6,PJOK,6,PJOK_VI,Apa yang dimaksud dengan menggiring bola dalam sepak bola?,"Menggiring bola adalah aktivitas mendorong bola agar tetap berada dalam jangkauan dan penguasaan sambil berjalan atau berlari ke arah tertentu.","PJOK_VI_CH0103"
+7,PJOK,6,PJOK_VI,Bagaimana cara melakukan lemparan bola ke dalam pada permainan sepak bola?,"Lemparan bola ke dalam dilakukan dengan berdiri, memegang bola di atas kepala, meliyukkan badan ke belakang, lalu mendorong badan dan mengayunkan lengan ke depan sambil kedua kaki tetap menapak di lapangan.","PJOK_VI_CH0117"

@@ -1,0 +1,45 @@
+﻿{% extends "base.html" %}
+{% set title = "History" %}
+{% set brand_title = "Bonibot/History" %}
+
+{% block content %}
+<section class="history-layout">
+    <div class="history-list">
+        {% if items %}
+            {% for item in items %}
+            <article class="history-card">
+                <div class="history-card-head">
+                    <div class="history-left">
+                        <div class="avatar avatar-history">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 20c1.7-4 13.3-4 15 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg>
+                        </div>
+                        <div class="history-title">{{ item.title }}</div>
+                    </div>
+                    <div class="history-main">
+                        <div class="history-meta">{{ item.time }}</div>
+                        <div class="history-meta">{{ item.date }}</div>
+                    </div>
+                </div>
+
+                <div class="history-section">
+                    <h3>Pertanyaan</h3>
+                    <div class="history-text-box">
+                        <p>{{ item.question }}</p>
+                    </div>
+                </div>
+
+                <div class="history-section">
+                    <h3>Jawaban Chatbot</h3>
+                    <div class="history-answer-box">
+                        <pre>{{ item.answer }}</pre>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        {% else %}
+            <p class="empty-text">Belum ada history percakapan.</p>
+        {% endif %}
+    </div>
+    <div class="history-footer">Tampilkan lebih banyak<br>↓</div>
+</section>
+{% endblock %}

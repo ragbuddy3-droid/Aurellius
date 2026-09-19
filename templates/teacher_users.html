@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% set title = "Daftar Siswa" %}
+{% set brand_title = "Bonibot/User" %}
+
+{% block content %}
+<section class="books-layout">
+    <div class="books-shell">
+        <div class="books-hero">
+            <div>
+                <p class="teacher-eyebrow">Panel Guru</p>
+                <h1>Daftar user atau siswa</h1>
+                <p>Halaman ini difokuskan untuk mengelola akun siswa yang terdaftar, seperti melihat identitas akun dan menghapus user bila diperlukan.</p>
+            </div>
+        </div>
+
+        {% if users %}
+        <div class="books-list">
+            {% for user in users %}
+            <article class="books-card">
+                <div class="books-card-head">
+                    <div>
+                        <h2>{{ user.name }}</h2>
+                        <p>@{{ user.username }}</p>
+                    </div>
+                    <div class="books-card-actions">
+                        <span class="books-status books-status-indexed">{{ 'aktif' if user.is_active else 'nonaktif' }}</span>
+                        <div class="books-action-buttons">
+                            <form method="post" action="{{ url_for('teacher_delete_user_page', user_id=user.id) }}" onsubmit="return confirm('Yakin ingin menghapus user ini? History chat siswa juga akan ikut terhapus.');">
+                                <button type="submit" class="books-action-link books-action-delete">Hapus User</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="books-meta-grid">
+                    <div class="books-meta-item">
+                        <span>ID User</span>
+                        <strong>{{ user.id }}</strong>
+                    </div>
+                    <div class="books-meta-item">
+                        <span>Peran</span>
+                        <strong>{{ user.role }}</strong>
+                    </div>
+                    <div class="books-meta-item">
+                        <span>Kelas</span>
+                        <strong>{{ user.student_grade or '-' }}</strong>
+                    </div>
+                    <div class="books-meta-item">
+                        <span>Jumlah Chat</span>
+                        <strong>{{ user.chat_messages|length }}</strong>
+                    </div>
+                    <div class="books-meta-item">
+                        <span>Dibuat</span>
+                        <strong>{{ user.created_at.strftime('%d-%m-%Y %H:%M') if user.created_at else '-' }}</strong>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="books-empty-state">
+            <h2>Belum ada user siswa</h2>
+            <p>Akun siswa akan muncul di halaman ini setelah user dibuat dan mulai menggunakan chatbot.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

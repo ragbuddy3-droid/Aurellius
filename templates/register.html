@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% set title = "Register" %}
+{% set brand_title = "Bonibot/Register" %}
+
+{% block content %}
+<section class="login-layout">
+    <div class="login-shell">
+        <div class="login-card">
+            <div class="login-card-head">
+                <p class="teacher-eyebrow">Buat Akun Baru</p>
+                <h1>Register User / Siswa</h1>
+                <p>Gunakan halaman ini untuk membuat akun siswa baru agar dapat login dan menggunakan chatbot.</p>
+            </div>
+
+            {% if error %}
+            <div class="teacher-alert teacher-alert-error">
+                <strong>Register gagal.</strong>
+                <span>{{ error }}</span>
+            </div>
+            {% endif %}
+
+            <form method="post" class="login-form">
+                <label class="teacher-field">
+                    <span>Nama Lengkap</span>
+                    <input type="text" name="name" value="{{ form_data.name }}" placeholder="Masukkan nama lengkap" required>
+                </label>
+
+                <label class="teacher-field">
+                    <span>Username</span>
+                    <input type="text" name="username" value="{{ form_data.username }}" placeholder="Masukkan username" required>
+                </label>
+
+                <label class="teacher-field">
+                    <span>Kelas</span>
+                    <select name="student_grade" required>
+                        <option value="" {% if not form_data.student_grade %}selected{% endif %} disabled>Pilih kelas</option>
+                        <option value="4" {% if form_data.student_grade == "4" %}selected{% endif %}>Kelas 4</option>
+                        <option value="5" {% if form_data.student_grade == "5" %}selected{% endif %}>Kelas 5</option>
+                        <option value="6" {% if form_data.student_grade == "6" %}selected{% endif %}>Kelas 6</option>
+                    </select>
+                </label>
+
+                <label class="teacher-field">
+                    <span>Password</span>
+                    <input type="password" name="password" placeholder="Masukkan password" required>
+                </label>
+
+                <label class="teacher-field">
+                    <span>Konfirmasi Password</span>
+                    <input type="password" name="confirm_password" placeholder="Ulangi password" required>
+                </label>
+
+                <button type="submit" class="teacher-submit login-submit">Daftar</button>
+            </form>
+
+            <div class="auth-switch-box">
+                <strong>Sudah punya akun?</strong>
+                <p>Kalau akun sudah dibuat, lanjut masuk melalui halaman login.</p>
+                <a href="{{ url_for('login_page') }}" class="teacher-cancel-link auth-switch-link">Ke Halaman Login</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

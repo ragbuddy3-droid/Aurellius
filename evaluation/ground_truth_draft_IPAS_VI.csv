@@ -1,0 +1,8 @@
+id,subject,grade,book_code,question,ground_truth,reference_chunks
+1,IPAS,6,IPAS_VI,Mengapa manusia memerlukan makanan?,"Manusia memerlukan makanan untuk tumbuh, beraktivitas, dan memperoleh zat gizi yang dibutuhkan tubuh.","IPAS_VI_CH0023; IPAS_VI_CH0030"
+2,IPAS,6,IPAS_VI,Apa yang dimaksud dengan organ pencernaan?,"Organ pencernaan adalah organ yang memproses makanan mulai dari masuk ke mulut hingga menjadi tinja yang dikeluarkan melalui anus.","IPAS_VI_CH0047"
+3,IPAS,6,IPAS_VI,Apa yang terjadi di mulut saat kita makan?,"Di mulut, makanan dicerna secara mekanik dengan bantuan gigi, lidah, dan air liur sampai menjadi lebih lunak.","IPAS_VI_CH0039"
+4,IPAS,6,IPAS_VI,Sebutkan urutan saluran pencernaan pada manusia.,"Urutan saluran pencernaan manusia adalah mulut, kerongkongan atau esofagus, lambung, usus halus, usus besar, rektum, dan anus.","IPAS_VI_CH0023"
+5,IPAS,6,IPAS_VI,Apa fungsi usus halus?,"Usus halus berfungsi menyerap sari-sari makanan atau nutrisi hasil pencernaan.","IPAS_VI_CH0058"
+6,IPAS,6,IPAS_VI,Apa yang dimaksud dengan gizi seimbang?,"Gizi seimbang adalah pemenuhan zat gizi yang diperlukan tubuh secara seimbang untuk tumbuh, menjaga kesehatan, dan melakukan aktivitas sehari-hari.","IPAS_VI_CH0066; IPAS_VI_CH0072"
+7,IPAS,6,IPAS_VI,Sebutkan tujuh jenis nutrisi utama yang diperlukan tubuh.,"Tujuh jenis nutrisi utama yang diperlukan tubuh adalah protein, lemak, karbohidrat, serat, air, vitamin, dan mineral.","IPAS_VI_CH0075"

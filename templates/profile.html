@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% set title = "Profil Akun" %}
+{% set brand_title = "Bonibot/Profil" %}
+
+{% block content %}
+<section class="teacher-layout">
+    <div class="teacher-shell">
+        <div class="teacher-hero">
+            <div class="teacher-hero-copy">
+                <p class="teacher-eyebrow">Profil Akun</p>
+                <h1>Kelola akun pribadi</h1>
+                <p>Di halaman ini kamu bisa melihat informasi akun yang sedang dipakai dan mengganti password dengan aman. Username tetap tidak diubah agar identitas akun tetap konsisten.</p>
+            </div>
+            <div class="teacher-hero-badge">
+                <span>{{ "Admin" if profile_user.role == "admin" else "User" }}</span>
+                <strong>{{ profile_user.username }}</strong>
+            </div>
+        </div>
+
+        {% if success %}
+        <div class="teacher-alert teacher-alert-success">
+            <strong>Perubahan berhasil disimpan.</strong>
+            <span>{{ success }}</span>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="teacher-alert teacher-alert-error">
+            <strong>Perubahan belum berhasil.</strong>
+            <span>{{ error }}</span>
+        </div>
+        {% endif %}
+
+        <div class="teacher-grid profile-grid">
+            <div class="teacher-card teacher-sidecard">
+                <div class="teacher-card-head">
+                    <h2>Informasi akun</h2>
+                    <p>Ringkasan ini membantu memastikan kamu sedang mengelola akun yang benar.</p>
+                </div>
+
+                <div class="profile-summary">
+                    <div class="profile-summary-item">
+                        <span>Nama</span>
+                        <strong>{{ profile_user.name }}</strong>
+                    </div>
+                    <div class="profile-summary-item">
+                        <span>Username</span>
+                        <strong>{{ profile_user.username }}</strong>
+                    </div>
+                    <div class="profile-summary-item">
+                        <span>Peran</span>
+                        <strong>{{ "Guru/Admin" if profile_user.role == "admin" else "Siswa/User" }}</strong>
+                    </div>
+                    {% if profile_user.student_grade %}
+                    <div class="profile-summary-item">
+                        <span>Kelas</span>
+                        <strong>{{ profile_user.student_grade }}</strong>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <form method="post" class="teacher-card teacher-form">
+                <div class="teacher-card-head">
+                    <h2>Ganti password</h2>
+                    <p>Masukkan password saat ini, lalu tentukan password baru yang ingin kamu gunakan.</p>
+                </div>
+
+                <label class="teacher-field">
+                    <span>Password saat ini</span>
+                    <input type="password" name="current_password" placeholder="Masukkan password saat ini" required>
+                </label>
+
+                <label class="teacher-field">
+                    <span>Password baru</span>
+                    <input type="password" name="new_password" placeholder="Minimal 6 karakter" required>
+                </label>
+
+                <label class="teacher-field">
+                    <span>Konfirmasi password baru</span>
+                    <input type="password" name="confirm_password" placeholder="Ulangi password baru" required>
+                </label>
+
+                <div class="teacher-action-group">
+                    <button type="submit" class="teacher-submit">Simpan password baru</button>
+                    <a href="{{ url_for('chat_page') }}" class="teacher-cancel-link">Kembali ke Chatbot</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

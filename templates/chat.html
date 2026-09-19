@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+{% set title = "Bonibot Chat Assistant" %}
+{% set brand_title = "Bonibot Chat Assistant" %}
+{% set show_sources = true %}
+{% set show_top_context = false %}
+
+{% block content %}
+<section class="chat-layout">
+    <div class="chat-card">
+        <div class="chat-scroll" id="chat-scroll">
+            {% for msg in messages %}
+            <div class="bubble-row {{ msg.role }}">
+                <div class="avatar avatar-{{ msg.role }}">
+                    {% if msg.role == "assistant" %}
+                    {% set avatar_state = msg.avatar_state or "happy" %}
+                    {% if avatar_state == "idle" %}
+                    <img src="{{ url_for('static', filename='bonibot-idle.png') }}" alt="Avatar BoniBot idle" class="avatar-image">
+                    {% elif avatar_state == "sad" %}
+                    <img src="{{ url_for('static', filename='bonibot-sad.png') }}" alt="Avatar BoniBot sedih" class="avatar-image">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='bonibot-happy.png') }}" alt="Avatar BoniBot senang" class="avatar-image">
+                    {% endif %}
+                    {% else %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 20c1.7-4 13.3-4 15 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg>
+                    {% endif %}
+                </div>
+                <div class="bubble {{ msg.role }}">
+                    <div class="bubble-text">{{ msg.text }}</div>
+                    {% if show_top_context and msg.sources %}
+                    {% set top_source = msg.sources[0] %}
+                    <div class="sources">
+                        <strong>Sumber:</strong>
+                        <div class="context-list">
+                            <div class="context-card">
+                                <div class="context-title">{{ top_source.source_book }} | {{ top_source.heading }}</div>
+                                <div class="context-meta">{{ top_source.chunk_id }}</div>
+                                <div class="context-body">{{ top_source.content }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if show_sources and msg.sources %}
+                    <div class="sources">
+                        <strong>Sumber dan konteks:</strong>
+                        <div class="context-list">
+                            {% for src in msg.sources %}
+                            <div class="context-card">
+                                <div class="context-title">{{ src.source_book }} | {{ src.heading }}</div>
+                                <div class="context-meta">{{ src.chunk_id }}</div>
+                                <div class="context-body">{{ src.content }}</div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <form method="post" class="chat-form-shell" id="chat-form">
+            <div class="chat-form">
+                <select name="provider" id="model-provider" class="chat-provider-select" aria-label="Pilih model chatbot">
+                    <option value="gemini" {% if current_provider == "gemini" %}selected{% endif %}>Gemini</option>
+                    <option value="qwen" {% if current_provider == "qwen" %}selected{% endif %}>Qwen</option>
+                </select>
+                <input
+                    type="text"
+                    name="message"
+                    id="chat-input"
+                    placeholder="Ketik pesan disini"
+                    autocomplete="off"
+                    required
+                >
+                <button type="submit" aria-label="Kirim pesan" id="chat-submit">&uarr;</button>
+            </div>
+        </form>
+
+        <p class="error-text" id="error-text"{% if not error %} hidden{% endif %}>{{ error or "" }}</p>
+    </div>
+</section>
+
+<script>
+const SHOW_SOURCES = true;
+const SHOW_TOP_CONTEXT = false;
+const chatScroll = document.getElementById("chat-scroll");
+const chatForm = document.getElementById("chat-form");
+const chatInput = document.getElementById("chat-input");
+const chatSubmit = document.getElementById("chat-submit");
+const errorText = document.getElementById("error-text");
+const modelProvider = document.getElementById("model-provider");
+const assistantAvatars = {
+    idle: '{{ url_for("static", filename="bonibot-idle.png") }}',
+    happy: '{{ url_for("static", filename="bonibot-happy.png") }}',
+    sad: '{{ url_for("static", filename="bonibot-sad.png") }}',
+};
+
+function humanizeErrorMessage(rawMessage) {
+    const text = (rawMessage || "").toLowerCase();
+    if (!text) {
+        return "";
+    }
+    if (text.includes("503") || text.includes("high demand") || text.includes("unavailable")) {
+        return "Server chatbot sedang sibuk. Coba kirim pertanyaan lagi beberapa saat ya.";
+    }
+    if (text.includes("api key")) {
+        return "Konfigurasi chatbot sedang bermasalah. Silakan hubungi admin atau guru.";
+    }
+    if (text.includes("timeout") || text.includes("timed out")) {
+        return "Permintaan memakan waktu terlalu lama. Coba ulangi lagi ya.";
+    }
+    return "Terjadi kendala saat memproses pertanyaan. Silakan coba lagi.";
+}
+
+function scrollToBottom() {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+}
+
+function avatarSvg(role, avatarState = "happy") {
+    if (role === "assistant") {
+        const state = assistantAvatars[avatarState] ? avatarState : "happy";
+        const altText = state === "idle"
+            ? "Avatar BoniBot idle"
+            : state === "sad"
+                ? "Avatar BoniBot sedih"
+                : "Avatar BoniBot senang";
+        return `<img src="${assistantAvatars[state]}" alt="${altText}" class="avatar-image">`;
+    }
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 20c1.7-4 13.3-4 15 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg>';
+}
+
+function createContextCard(source, extraClass = "") {
+    const card = document.createElement("div");
+    card.className = `context-card ${extraClass}`.trim();
+
+    const title = document.createElement("div");
+    title.className = "context-title";
+    title.textContent = `${source.source_book} | ${source.heading}`;
+
+    const meta = document.createElement("div");
+    meta.className = "context-meta";
+    meta.textContent = source.chunk_id || "-";
+
+    const body = document.createElement("div");
+    body.className = "context-body";
+    body.textContent = source.content || "";
+
+    card.appendChild(title);
+    card.appendChild(meta);
+    card.appendChild(body);
+    return card;
+}
+
+function appendMessage(msg) {
+    const row = document.createElement("div");
+    row.className = `bubble-row ${msg.role}`;
+
+    const avatar = document.createElement("div");
+    avatar.className = `avatar avatar-${msg.role}`;
+    avatar.innerHTML = avatarSvg(msg.role, msg.avatar_state);
+
+    const bubble = document.createElement("div");
+    bubble.className = `bubble ${msg.role}`;
+
+    const text = document.createElement("div");
+    text.className = "bubble-text";
+    text.textContent = msg.text;
+    bubble.appendChild(text);
+
+    if (SHOW_TOP_CONTEXT && msg.sources && msg.sources.length) {
+        const topContext = document.createElement("div");
+        topContext.className = "sources";
+
+        const label = document.createElement("strong");
+        label.textContent = "Sumber:";
+
+        const list = document.createElement("div");
+        list.className = "context-list";
+        list.appendChild(createContextCard(msg.sources[0]));
+
+        topContext.appendChild(label);
+        topContext.appendChild(list);
+        bubble.appendChild(topContext);
+    }
+
+    if (SHOW_SOURCES && msg.sources && msg.sources.length) {
+        const sources = document.createElement("div");
+        sources.className = "sources";
+        const label = document.createElement("strong");
+        label.textContent = "Sumber dan konteks:";
+        const list = document.createElement("div");
+        list.className = "context-list";
+
+        msg.sources.forEach((source) => {
+            list.appendChild(createContextCard(source));
+        });
+
+        sources.appendChild(label);
+        sources.appendChild(list);
+        bubble.appendChild(sources);
+    }
+
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    chatScroll.appendChild(row);
+}
+
+function appendLoadingMessage() {
+    const row = document.createElement("div");
+    row.className = "bubble-row assistant loading-row";
+    row.dataset.loading = "true";
+
+    const avatar = document.createElement("div");
+    avatar.className = "avatar avatar-assistant";
+    avatar.innerHTML = avatarSvg("assistant", "idle");
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble assistant loading-bubble";
+
+    const spinner = document.createElement("span");
+    spinner.className = "loading-spinner";
+    spinner.setAttribute("aria-hidden", "true");
+
+    const text = document.createElement("span");
+    text.className = "loading-text";
+    text.textContent = "BoniBot sedang mencari jawaban dari buku...";
+
+    bubble.appendChild(spinner);
+    bubble.appendChild(text);
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    chatScroll.appendChild(row);
+    return row;
+}
+
+function removeLoadingMessage(loadingRow) {
+    if (loadingRow && loadingRow.parentElement) {
+        loadingRow.remove();
+    }
+}
+
+chatForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    errorText.hidden = true;
+    errorText.textContent = "";
+
+    appendMessage({ role: "user", text: message, sources: [] });
+    chatInput.value = "";
+    chatInput.disabled = true;
+    chatSubmit.disabled = true;
+    const loadingRow = appendLoadingMessage();
+    scrollToBottom();
+
+    try {
+        const response = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                message,
+                provider: modelProvider.value,
+            }),
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.error || "Terjadi kesalahan saat mengirim pesan.");
+        }
+
+        removeLoadingMessage(loadingRow);
+        appendMessage(data.bot_message);
+        if (data.error) {
+            errorText.textContent = humanizeErrorMessage(data.error);
+            errorText.hidden = false;
+        }
+    } catch (error) {
+        removeLoadingMessage(loadingRow);
+        appendMessage({
+            role: "assistant",
+            text: "Maaf, terjadi kendala saat memproses pertanyaanmu.",
+            sources: [],
+            avatar_state: "sad",
+        });
+        errorText.textContent = humanizeErrorMessage(error.message);
+        errorText.hidden = false;
+    } finally {
+        chatInput.disabled = false;
+        chatSubmit.disabled = false;
+        chatInput.focus();
+        scrollToBottom();
+    }
+});
+
+scrollToBottom();
+</script>
+{% endblock %}

@@ -1,0 +1,8 @@
+id,subject,grade,book_code,question,ground_truth,reference_chunks
+1,IPAS,5,IPAS_V,Apa yang dimaksud dengan cahaya?,"Cahaya adalah bentuk energi yang dihasilkan oleh sumber cahaya, seperti Matahari, lampu, dan api.","IPAS_V_CH0037; IPAS_V_CH0044"
+2,IPAS,5,IPAS_V,Bagaimana cahaya merambat?,"Cahaya merambat lurus dari sumbernya dan tidak membutuhkan media seperti udara, air, atau benda padat untuk merambat.","IPAS_V_CH0044; IPAS_V_CH0045; IPAS_V_CH0064"
+3,IPAS,5,IPAS_V,Mengapa kita bisa melihat benda?,"Kita bisa melihat benda karena cahaya dipantulkan dari benda ke mata kita. Tanpa cahaya, tidak ada pantulan yang diterima mata.","IPAS_V_CH0046; IPAS_V_CH0064"
+4,IPAS,5,IPAS_V,Mengapa kita bisa melihat bayangan di cermin?,"Kita bisa melihat bayangan di cermin karena cahaya dari sumber cahaya merambat ke cermin lalu dipantulkan ke mata kita.","IPAS_V_CH0046; IPAS_V_CH0058"
+5,IPAS,5,IPAS_V,Mengapa sendok terlihat bengkok ketika sebagian sendok dicelupkan ke dalam air?,"Sendok terlihat bengkok karena cahaya dibiaskan atau dibelokkan ketika menembus media yang berbeda, yaitu dari udara ke air.","IPAS_V_CH0049"
+6,IPAS,5,IPAS_V,Bagaimana pelangi terbentuk?,"Pelangi terbentuk ketika cahaya Matahari mengenai butir-butir air hujan. Air hujan bertindak seperti prisma yang membiaskan dan menguraikan cahaya menjadi warna-warna pelangi.","IPAS_V_CH0050; IPAS_V_CH0052; IPAS_V_CH0064"
+7,IPAS,5,IPAS_V,Sebutkan tiga jenis cermin yang sering digunakan manusia.,"Tiga jenis cermin yang sering digunakan manusia adalah cermin datar, cermin cembung, dan cermin cekung.","IPAS_V_CH0059; IPAS_V_CH0060; IPAS_V_CH0061; IPAS_V_CH0062"

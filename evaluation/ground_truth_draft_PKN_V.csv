@@ -1,0 +1,8 @@
+id,subject,grade,book_code,question,ground_truth,reference_chunks
+1,PKN,5,PKN_V,Kapan Pancasila ditetapkan sebagai dasar negara Indonesia?,"Pancasila ditetapkan sebagai dasar negara Indonesia pada tanggal 18 Agustus 1945 dalam sidang PPKI.","PKN_V_CH0096"
+2,PKN,5,PKN_V,Siapa yang menyampaikan pidato tentang lima prinsip dasar negara pada 1 Juni 1945?,"Pidato tentang lima prinsip dasar negara pada 1 Juni 1945 disampaikan oleh Sukarno dalam sidang BPUPK.","PKN_V_CH0096"
+3,PKN,5,PKN_V,Apa yang dimaksud dengan musyawarah?,"Musyawarah adalah proses pembahasan bersama tentang suatu hal untuk mencapai keputusan bersama yang adil.","PKN_V_CH0223"
+4,PKN,5,PKN_V,Mengapa musyawarah penting dalam kehidupan bersama?,"Musyawarah penting karena membantu orang mencapai kesepakatan bersama dengan menghargai pendapat orang lain dan mempertimbangkan kepentingan bersama.","PKN_V_CH0223; PKN_V_CH0225"
+5,PKN,5,PKN_V,Apa yang dimaksud dengan hak?,"Hak adalah kewenangan seseorang untuk mendapatkan, memiliki, atau melakukan sesuatu berdasarkan ketentuan yang berlaku.","PKN_V_CH0190; PKN_V_CH1558"
+6,PKN,5,PKN_V,Apa yang dimaksud dengan kewajiban?,"Kewajiban adalah segala sesuatu yang harus dilaksanakan oleh seseorang berdasarkan aturan yang berlaku.","PKN_V_CH0190; PKN_V_CH1558"
+7,PKN,5,PKN_V,Mengapa hak dan kewajiban selalu saling berkaitan?,"Hak dan kewajiban selalu saling berkaitan karena di mana ada kewajiban yang dilaksanakan, di situ akan timbul hak yang dapat diperoleh.","PKN_V_CH1558"

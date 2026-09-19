@@ -1,0 +1,10 @@
+faiss-cpu==1.13.2
+Flask
+Flask-SQLAlchemy
+google-genai
+numpy==2.4.2
+pdfplumber==0.11.9
+PyMySQL
+sentence-transformers==5.2.3
+torch==2.10.0
+transformers

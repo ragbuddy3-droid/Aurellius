@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title or "Chatbot SD" }}</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon-chatbot.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <a href="{{ url_for('chat_page') }}" class="brand">
+            <img
+                src="{{ url_for('static', filename='icon-chatbot.png') }}"
+                alt="Ikon Chatbot"
+                class="brand-logo"
+            >
+            <span>{{ brand_title or "Chatbot" }}</span>
+        </a>
+        <nav class="navlinks">
+            <a href="{{ url_for('about_page') }}">
+                <span class="icon-wrap">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><rect x="11.2" y="10" width="1.6" height="7" fill="currentColor"></rect><circle cx="12" cy="7.2" r="1.2" fill="currentColor"></circle></svg>
+                </span>
+                <span>About</span>
+            </a>
+
+            {% if current_user %}
+                <a href="{{ url_for('teacher_history_page') if current_user.role == 'admin' else url_for('history_page') }}">
+                    <span class="icon-wrap">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><path d="M6 5 4.5 7.5 7 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </span>
+                    <span>History</span>
+                </a>
+
+                {% if current_user.role == 'admin' %}
+                <a href="{{ url_for('teacher_upload_page') }}">
+                    <span class="icon-wrap">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><path d="M8.5 8.5 12 5l3.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><rect x="4" y="14" width="16" height="6" rx="2" fill="none" stroke="currentColor" stroke-width="2"></rect></svg>
+                    </span>
+                    <span>Upload</span>
+                </a>
+                <a href="{{ url_for('teacher_books_page') }}">
+                    <span class="icon-wrap">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h11a2 2 0 0 1 2 2v12a1 1 0 0 1-1.6.8L14 16.2l-3.4 2.6A1 1 0 0 1 9 18V6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2"></path><path d="M8 8h7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><path d="M8 12h7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+                    </span>
+                    <span>Buku</span>
+                </a>
+                <a href="{{ url_for('teacher_users_page') }}">
+                    <span class="icon-wrap">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="17" cy="8" r="2.5" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M4.5 19c.9-2.8 8.1-2.8 9 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><path d="M13.5 18c.5-1.8 4.5-1.8 5 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+                    </span>
+                    <span>User</span>
+                </a>
+                {% endif %}
+
+                <a href="{{ url_for('profile_page') }}">
+                    <span class="icon-wrap">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 20c1.7-4 13.3-4 15 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg>
+                    </span>
+                    <span>{{ current_user.name }}</span>
+                </a>
+                <a href="{{ url_for('logout_page') }}">
+                    <span class="icon-wrap">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4" fill="none" stroke="currentColor" stroke-width="2"></path><path d="M14 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 12h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+                    </span>
+                    <span>Logout</span>
+                </a>
+            {% else %}
+                <a href="{{ url_for('login_page') }}">
+                    <span class="icon-wrap">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4" fill="none" stroke="currentColor" stroke-width="2"></path><path d="M14 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 12h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+                    </span>
+                    <span>Login</span>
+                </a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="page-shell">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="flash-shell">
+                {% for category, message in messages %}
+                <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

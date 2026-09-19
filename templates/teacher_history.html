@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% set title = "History Chat" %}
+{% set brand_title = "Bonibot/History" %}
+
+{% block content %}
+<section class="books-layout">
+    <div class="books-shell">
+        <div class="books-hero">
+            <div>
+                <p class="teacher-eyebrow">Panel Guru</p>
+                <h1>Daftar siswa untuk melihat history chat</h1>
+                <p>Halaman ini menampilkan daftar siswa beserta ringkasan aktivitas chat mereka. Guru dapat memilih siswa tertentu untuk membuka detail riwayat percakapannya.</p>
+            </div>
+        </div>
+
+            <div class="book-edit">
+                </div>
+
+        {% if users %}
+        <div class="books-list">
+            {% for user in users %}
+            <article class="books-card">
+                <div class="books-card-head">
+                    <div>
+                        <h2>{{ user.user_name }}</h2>
+                        <p>@{{ user.username }}</p>
+                    </div>
+                    <div class="books-card-actions">
+                        <span class="book-edit">Edit</span>
+                        <span class="books-status books-status-uploaded">{{ user.chat_count }} chat</span>
+                        <div class="books-action-buttons">
+                            <a href="{{ url_for('teacher_user_history_page', user_id=user.user_id) }}" class="books-action-link books-action-edit">Lihat History</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="books-meta-grid">
+                    <div class="books-meta-item">
+                        <span>ID User</span>
+                        <strong>{{ user.user_id }}</strong>
+                    </div>
+                    <div class="books-meta-item">
+                        <span>Kelas</span>
+                        <strong>{{ user.student_grade or '-' }}</strong>
+                    </div>
+                    <div class="books-meta-item">
+                        <span>Tanggal Dibuat</span>
+                        <strong>{{ user.created_at }}</strong>
+                    </div>
+                    <div class="books-meta-item">
+                        <span>Jumlah History Chat</span>
+                        <strong>{{ user.chat_count }}</strong>
+                    </div>
+                    <div class="books-meta-item">
+                        <span>Chat Terakhir</span>
+                        <strong>{{ user.last_chat_at }}</strong>
+                    </div>
+                </div>
+
+                <div class="books-subsection">
+                    <h3>Ringkasan Pertanyaan Terakhir</h3>
+                    <div class="books-notes">
+                        <p>{{ user.last_question or 'Belum ada chat yang tersimpan untuk siswa ini.' }}</p>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="books-empty-state">
+            <h2>Belum ada data siswa</h2>
+            <p>Data siswa akan tampil di halaman ini setelah akun user dibuat dan mulai menggunakan chatbot.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

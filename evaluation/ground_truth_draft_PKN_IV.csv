@@ -1,0 +1,8 @@
+id,subject,grade,book_code,question,ground_truth,reference_chunks
+1,PKN,4,PKN_IV,Apa yang dimaksud dengan lingkungan sekitar?,"Lingkungan sekitar adalah lingkungan yang dekat dengan kehidupan sehari-hari, seperti lingkungan tempat tinggal di RT, RW, desa, atau kelurahan.","PKN_IV_CH0033; PKN_IV_CH0034"
+2,PKN,4,PKN_IV,Apa tujuan kegiatan Karnaval Sepeda Hias Desa Bineka?,"Tujuan kegiatan Karnaval Sepeda Hias Desa Bineka adalah agar anak-anak mengenal keanekaragaman suku dan budaya bangsa Indonesia.","PKN_IV_CH0058"
+3,PKN,4,PKN_IV,Mengapa kegiatan karnaval dapat menumbuhkan sikap toleransi dan tenggang rasa?,"Kegiatan karnaval dapat menumbuhkan toleransi dan tenggang rasa karena peserta belajar saling mengenal serta menghargai perbedaan adat istiadat, agama, dan kepercayaan di masyarakat.","PKN_IV_CH0058; PKN_IV_CH0059"
+4,PKN,4,PKN_IV,Sebutkan contoh keberagaman yang ada di lingkungan sekitar.,"Contoh keberagaman di lingkungan sekitar antara lain keberagaman suku, budaya, agama, dan kepercayaan.","PKN_IV_CH0033; PKN_IV_CH0239"
+5,PKN,4,PKN_IV,Apa tugas sekretaris desa atau kelurahan?,"Sekretaris desa atau kelurahan bertugas mengurus tata usaha, keuangan, dan perencanaan.","PKN_IV_CH0087"
+6,PKN,4,PKN_IV,Mengapa kita perlu mengenal lingkungan sekitar tempat tinggal?,"Kita perlu mengenal lingkungan sekitar agar mengetahui keadaan tempat tinggal, memahami keberagaman, serta tumbuh sikap peduli terhadap lingkungan.","PKN_IV_CH0100; PKN_IV_CH0239"
+7,PKN,4,PKN_IV,Bagaimana sikap yang tepat terhadap keberagaman di lingkungan sekitar?,"Sikap yang tepat terhadap keberagaman adalah saling menghargai, bersikap toleran, dan menjaga kerukunan.","PKN_IV_CH0059; PKN_IV_CH0239"

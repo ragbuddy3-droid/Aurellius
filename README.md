@@ -1,0 +1,220 @@
+﻿# Skripsi Chatbot Buku Pelajaran SD Berbasis RAG
+
+## Deskripsi Proyek
+Proyek ini merupakan chatbot pendidikan berbasis Retrieval-Augmented Generation (RAG) yang dibangun dari dataset buku pelajaran PDF kelas 4 sampai kelas 6 Sekolah Dasar. Dataset yang digunakan mencakup mata pelajaran:
+
+- IPAS
+- PJOK
+- Pendidikan Pancasila
+
+Chatbot dirancang untuk menjawab pertanyaan siswa berdasarkan isi buku pelajaran dengan penjelasan yang sederhana dan mudah dipahami anak SD.
+
+## Tujuan
+Tujuan dari proyek ini adalah membangun sistem chatbot edukasi yang mampu:
+
+- memahami isi buku pelajaran SD dari file PDF,
+- melakukan chunking teks secara adaptif,
+- mengambil konteks yang relevan menggunakan retrieval berbasis embedding,
+- menghasilkan jawaban sederhana menggunakan model generatif.
+
+## Metode
+Sistem menggunakan pendekatan Retrieval-Augmented Generation (RAG) dengan tahapan utama sebagai berikut:
+
+1. ekstraksi teks dari buku PDF,
+2. adaptive chunking,
+3. embedding,
+4. indexing dengan FAISS,
+5. retrieval konteks relevan,
+6. generation jawaban menggunakan Gemini.
+
+## Adaptive Chunking
+Proses chunking dilakukan menggunakan pendekatan adaptive chunking dalam dua tahap.
+
+### 1. Structured-Based Chunking
+Teks dari buku PDF diubah terlebih dahulu menjadi block berdasarkan struktur dokumen, yaitu:
+
+- heading
+- list
+- paragraph
+
+Pada tahap ini, heading disimpan sebagai metadata untuk membantu retrieval.
+
+### 2. Discourse-Aware Labeling
+Block bertipe list dan paragraph diberi label discourse marker. Label yang digunakan meliputi:
+
+- `IMPERATIVE_TASK`
+- `EVALUATIVE_QUESTION`
+- `DEFINITION`
+- `CAUSE_EFFECT`
+- `EXAMPLE_ILLUSTRATION`
+- `NARRATIVE_SEQUENCE`
+- `FACT_EXPLANATION`
+- `PROMPT_INTRO`
+- `GLOSSARY_BOX`
+
+Selanjutnya, discourse marker tersebut dipetakan ke empat kategori utama:
+
+- `KONSEP`
+- `INSTRUKSI`
+- `EVALUASI`
+- `NARASI`
+
+Kategori ini digunakan untuk membantu penyaringan konteks pada tahap retrieval agar hasil yang diambil lebih sesuai dengan jenis pertanyaan pengguna.
+
+## Embedding dan Vector Database
+Setelah proses chunking selesai, setiap chunk diubah menjadi embedding menggunakan model:
+
+- `intfloat/multilingual-e5-large`
+
+Embedding yang dihasilkan kemudian disimpan dalam vector database menggunakan:
+
+- `FAISS`
+
+## Retrieval
+Pada tahap retrieval, sistem melakukan:
+
+- embedding terhadap query pengguna,
+- pencarian kemiripan menggunakan cosine similarity,
+- pengambilan top-k context dengan `top-k = 3`,
+- filtering tambahan berdasarkan metadata dan kategori chunk.
+
+Filtering metadata dan kategori digunakan agar konteks yang diberikan ke generator lebih relevan dengan pertanyaan pengguna.
+
+## Generation
+Konteks hasil retrieval kemudian diberikan ke model generatif Gemini untuk menghasilkan jawaban akhir.
+
+Jawaban dirancang agar:
+
+- sederhana,
+- mudah dipahami,
+- sesuai untuk anak Sekolah Dasar.
+
+## Struktur File
+Berikut gambaran umum file utama dalam proyek ini:
+
+- `config.py` : konfigurasi model, path file, dan parameter retrieval
+- `extract_pdf.py` : ekstraksi teks dari file PDF
+- `adaptive_chunking.py` : proses structured chunking, labeling discourse marker, dan pembentukan chunk
+- `main.py` : menjalankan proses chunking dari dataset PDF
+- `build_index.py` : membuat embedding dan index FAISS
+- `retrieval.py` : melakukan retrieval konteks relevan
+- `chatbot.py` : chatbot CLI end-to-end yang menghubungkan retrieval dan Gemini
+- `LLM.py` : percobaan atau integrasi model generatif Gemini
+- `Embedding.py` : percobaan embedding menggunakan model E5
+
+## Dataset
+Dataset berasal dari buku pelajaran PDF kelas 4, 5, dan 6 SD untuk beberapa mata pelajaran berikut:
+
+- IPAS
+- PJOK
+- Pendidikan Pancasila
+
+File PDF diletakkan pada folder `data/`.
+
+## Output
+Hasil chunking disimpan pada folder `out/` dalam format:
+
+- `.jsonl`
+- `.txt`
+
+## Konfigurasi
+Konfigurasi utama proyek dapat diatur melalui file `config.py` atau environment variable. Template konfigurasi environment tersedia pada file `.env.example`.
+
+Parameter yang dapat diatur antara lain:
+
+- `GEMINI_API_KEY`
+- `EMBEDDING_MODEL_NAME`
+- `EMBEDDING_DIM`
+- `CHUNK_JSONL_PATH`
+- `INDEX_PATH`
+- `STORE_PATH`
+- `TOP_K`
+- `PRE_K`
+- `GEMINI_MODEL_NAME`
+- `APP_SECRET_KEY`
+- `DATABASE_URL`
+
+## Cara Menjalankan
+Urutan menjalankan pipeline secara umum adalah sebagai berikut:
+
+1. install dependency dari `requirements.txt`,
+2. letakkan file PDF pada folder `data/`,
+3. jalankan `main.py` untuk membuat hasil chunking,
+4. jalankan `build_index.py` untuk membuat index FAISS dan metadata store,
+5. set `GEMINI_API_KEY`,
+6. jalankan `chatbot.py` untuk mulai bertanya ke chatbot.
+
+Contoh perintah:
+
+```bash
+pip install -r requirements.txt
+python main.py
+python build_index.py
+python chatbot.py
+```
+
+Untuk pengguna Windows, chatbot juga bisa dijalankan melalui:
+
+```bat
+run_chatbot.bat
+```
+
+## Menjalankan Website
+Jika ingin menjalankan chatbot dalam bentuk website sederhana, gunakan:
+
+```bash
+pip install -r requirements.txt
+python webapp.py
+```
+
+Lalu buka browser ke alamat:
+
+```text
+http://127.0.0.1:5000
+```
+
+## Database Aplikasi
+Project ini sekarang juga menyiapkan fondasi database aplikasi menggunakan `Flask-SQLAlchemy`. Model utama yang telah disiapkan meliputi:
+
+- `users`
+- `books`
+- `headings`
+- `chat_history`
+- `processing_logs`
+
+Secara default, konfigurasi database memakai:
+
+```text
+sqlite:///app.db
+```
+
+Jika ingin memakai MySQL, ubah environment variable `DATABASE_URL`, misalnya:
+
+```text
+mysql+pymysql://root:password@localhost/chatbot_sd
+```
+
+Setelah database siap, buat tabel dengan:
+
+```bash
+python init_db.py
+```
+
+Buat akun awal admin dan user dengan:
+
+```bash
+python seed_users.py
+```
+
+Akun demo bawaan:
+
+- Admin: `guruadmin / admin123`
+- User: `siswa1 / user123`
+
+Catatan:
+
+- `MySQL` dipakai untuk data aplikasi dan CRUD admin/user.
+- `FAISS` tetap dipakai untuk vector retrieval chatbot.
+
+## Catatan
+Proyek ini dikembangkan sebagai bagian dari penelitian skripsi mengenai penerapan adaptive chunking pada chatbot pendidikan berbasis RAG untuk meningkatkan relevansi retrieval pada dataset buku pelajaran SD.

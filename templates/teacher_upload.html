@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+{% set title = "Upload Buku Guru" %}
+{% set brand_title = "Bonibot/Guru" %}
+
+{% block content %}
+<section class="teacher-layout">
+    <div class="teacher-shell">
+        <div class="teacher-hero">
+            <div class="teacher-hero-copy">
+                <p class="teacher-eyebrow">Panel Guru</p>
+                <h1>Upload buku baru dan daftar heading</h1>
+                <p>Halaman ini membantu guru menambahkan buku PDF baru beserta nama heading, fungsi section, dan keterangannya agar struktur buku tersimpan lebih rapi.</p>
+            </div>
+            <div class="teacher-hero-badge">
+                <span>PDF</span>
+                <strong>+ Heading</strong>
+            </div>
+        </div>
+
+        <div class="teacher-top-actions">
+            <div class="teacher-top-actions-copy">
+                <h2>Proses Buku ke Knowledge Base</h2>
+                <p>Setelah upload selesai, klik tombol proses untuk menjalankan <code>main.py</code> dan <code>build_index.py</code> agar buku baru masuk ke pipeline RAG.</p>
+            </div>
+            <form method="post" class="teacher-process-form">
+                <input type="hidden" name="action" value="process_index">
+                <button type="submit" class="teacher-submit teacher-submit-secondary">Proses Index Sekarang</button>
+            </form>
+        </div>
+
+        {% if success %}
+        <div class="teacher-alert teacher-alert-success">
+            <strong>Upload berhasil.</strong>
+            <span>{{ success.book_title }} tersimpan sebagai {{ success.filename }} dengan {{ success.heading_count }} heading. Metadata disimpan di {{ success.metadata_file }} dan tercatat di database dengan ID buku {{ success.book_id }}.</span>
+        </div>
+        {% endif %}
+
+        {% if process_result %}
+        <div class="teacher-alert teacher-alert-success">
+            <strong>{{ process_result.title }}</strong>
+            <span class="teacher-process-output">{{ process_result.details }}</span>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="teacher-alert teacher-alert-error">
+            <strong>Proses belum berhasil.</strong>
+            <span class="teacher-process-output">{{ error }}</span>
+        </div>
+        {% endif %}
+
+        <div class="teacher-grid">
+            <form class="teacher-card teacher-form" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="action" value="upload">
+                <div class="teacher-card-head">
+                    <h2>Form Upload</h2>
+                    <p>Isi data buku, pilih file PDF, lalu tambahkan heading satu per satu bersama fungsi section dan keterangannya.</p>
+                </div>
+
+                <label class="teacher-field">
+                    <span>Nama Buku</span>
+                    <input type="text" name="book_title" value="{{ form_data.book_title }}" placeholder="Contoh: Pendidikan Pancasila Kelas 5">
+                </label>
+
+                <div class="teacher-inline-fields">
+                    <label class="teacher-field">
+                        <span>Mata Pelajaran</span>
+                        <select name="subject">
+                            <option value="" {% if not form_data.subject %}selected{% endif %}>Pilih mapel</option>
+                            <option value="IPAS" {% if form_data.subject == "IPAS" %}selected{% endif %}>IPAS</option>
+                            <option value="PJOK" {% if form_data.subject == "PJOK" %}selected{% endif %}>PJOK</option>
+                            <option value="Pendidikan Pancasila" {% if form_data.subject == "Pendidikan Pancasila" %}selected{% endif %}>Pendidikan Pancasila</option>
+                            <option value="Lainnya" {% if form_data.subject == "Lainnya" %}selected{% endif %}>Lainnya</option>
+                        </select>
+                    </label>
+
+                    <label class="teacher-field">
+                        <span>Kelas</span>
+                        <select name="grade">
+                            <option value="" {% if not form_data.grade %}selected{% endif %}>Pilih kelas</option>
+                            <option value="4" {% if form_data.grade == "4" %}selected{% endif %}>Kelas 4</option>
+                            <option value="5" {% if form_data.grade == "5" %}selected{% endif %}>Kelas 5</option>
+                            <option value="6" {% if form_data.grade == "6" %}selected{% endif %}>Kelas 6</option>
+                        </select>
+                    </label>
+                </div>
+
+                <label class="teacher-field">
+                    <span>File Buku (PDF)</span>
+                    <input
+                        type="file"
+                        name="book_file"
+                        accept=".pdf,application/pdf"
+                        data-max-size="{{ max_upload_pdf_bytes }}"
+                        data-max-size-mb="{{ max_upload_pdf_mb }}"
+                        required
+                    >
+                    <small>Maksimal ukuran file: {{ max_upload_pdf_mb }} MB. Hanya file PDF yang diperbolehkan.</small>
+                </label>
+
+                <div class="teacher-field">
+                    <span>Daftar Heading</span>
+                    <div class="teacher-table-wrap">
+                        <div class="teacher-table teacher-table-head">
+                            <div>Nama Heading</div>
+                            <div>Fungsi Section</div>
+                            <div>Keterangan</div>
+                            <div>Aksi</div>
+                        </div>
+                        <div id="heading-rows">
+                            {% for entry in form_data.heading_entries %}
+                            <div class="teacher-table teacher-table-row">
+                                <div>
+                                    <input type="text" name="heading_name" value="{{ entry.name }}" placeholder="Contoh: Tujuan Pembelajaran">
+                                </div>
+                                <div>
+                                    <select name="heading_mode">
+                                        <option value="GENERAL" {% if entry.section_mode == "GENERAL" %}selected{% endif %}>General</option>
+                                        <option value="INSTRUKSI" {% if entry.section_mode == "INSTRUKSI" %}selected{% endif %}>Instruksi</option>
+                                        <option value="EVALUASI" {% if entry.section_mode == "EVALUASI" %}selected{% endif %}>Evaluasi</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <textarea name="heading_description" rows="2" placeholder="Contoh: Menjelaskan kompetensi yang perlu dicapai siswa.">{{ entry.description }}</textarea>
+                                </div>
+                                <div class="teacher-row-action">
+                                    <button type="button" class="teacher-remove-row">Hapus</button>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <button type="button" class="teacher-add-row" id="add-heading-row">+ Tambah heading</button>
+                </div>
+
+                <label class="teacher-field">
+                    <span>Catatan Tambahan</span>
+                    <textarea name="notes" rows="4" placeholder="Opsional: tulis catatan untuk buku ini, misalnya variasi heading atau struktur khusus.">{{ form_data.notes }}</textarea>
+                </label>
+
+                <button type="submit" class="teacher-submit">Simpan Buku</button>
+            </form>
+
+            <div class="teacher-card teacher-sidecard">
+                <div class="teacher-card-head">
+                    <h2>Panduan Singkat</h2>
+                    <p>Format tabel ini membantu guru membedakan nama heading, fungsi section, dan penjelasannya dengan lebih jelas.</p>
+                </div>
+
+                <div class="teacher-note-list">
+                    <div class="teacher-note-item">
+                        <strong>1. Isi nama heading di kolom pertama</strong>
+                        <p>Contoh: Ayo, Membaca, Refleksi, Uji Kompetensi, atau Tujuan Pembelajaran.</p>
+                    </div>
+                    <div class="teacher-note-item">
+                        <strong>2. Pilih fungsi section di kolom kedua</strong>
+                        <p>Gunakan General untuk heading umum, Instruksi untuk aktivitas prosedural, dan Evaluasi untuk bagian soal atau refleksi.</p>
+                    </div>
+                    <div class="teacher-note-item">
+                        <strong>3. Tulis keterangan singkat di kolom ketiga</strong>
+                        <p>Keterangan membantu guru mendokumentasikan peran heading tanpa mencampurkannya dengan nama heading utama.</p>
+                    </div>
+                </div>
+
+                <div class="teacher-example-box">
+                    <p class="teacher-example-title">Contoh isian</p>
+                    <pre>Nama heading: Tujuan Pembelajaran
+Fungsi section: General
+Keterangan: Menjelaskan hasil belajar yang perlu dicapai.
+
+Nama heading: Uji Kompetensi
+Fungsi section: Evaluasi
+Keterangan: Berisi soal untuk mengukur pemahaman siswa.</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<template id="heading-row-template">
+    <div class="teacher-table teacher-table-row">
+        <div>
+            <input type="text" name="heading_name" placeholder="Contoh: Kata Kunci">
+        </div>
+        <div>
+            <select name="heading_mode">
+                <option value="GENERAL" selected>General</option>
+                <option value="INSTRUKSI">Instruksi</option>
+                <option value="EVALUASI">Evaluasi</option>
+            </select>
+        </div>
+        <div>
+            <textarea name="heading_description" rows="2" placeholder="Contoh: Memuat istilah penting dalam bab."></textarea>
+        </div>
+        <div class="teacher-row-action">
+            <button type="button" class="teacher-remove-row">Hapus</button>
+        </div>
+    </div>
+</template>
+
+<script>
+const headingRows = document.getElementById("heading-rows");
+const addHeadingRow = document.getElementById("add-heading-row");
+const headingTemplate = document.getElementById("heading-row-template");
+const bookFileInput = document.querySelector('input[name="book_file"]');
+
+function bindRemoveButtons() {
+    const buttons = headingRows.querySelectorAll(".teacher-remove-row");
+    buttons.forEach((button) => {
+        button.onclick = () => {
+            const rows = headingRows.querySelectorAll(".teacher-table-row");
+            if (rows.length <= 1) {
+                const firstName = rows[0].querySelector('input[name="heading_name"]');
+                const firstMode = rows[0].querySelector('select[name="heading_mode"]');
+                const firstDescription = rows[0].querySelector('textarea[name="heading_description"]');
+                firstName.value = "";
+                firstMode.value = "GENERAL";
+                firstDescription.value = "";
+                return;
+            }
+            button.closest(".teacher-table-row").remove();
+        };
+    });
+}
+
+addHeadingRow.addEventListener("click", () => {
+    const fragment = headingTemplate.content.cloneNode(true);
+    headingRows.appendChild(fragment);
+    bindRemoveButtons();
+});
+
+bindRemoveButtons();
+
+if (bookFileInput) {
+    bookFileInput.addEventListener("change", () => {
+        const selectedFile = bookFileInput.files[0];
+        if (!selectedFile) {
+            return;
+        }
+
+        const maxSize = Number(bookFileInput.dataset.maxSize || 0);
+        const maxSizeMb = bookFileInput.dataset.maxSizeMb || "";
+        if (maxSize && selectedFile.size > maxSize) {
+            alert(`Ukuran file terlalu besar. Maksimal upload PDF adalah ${maxSizeMb} MB.`);
+            bookFileInput.value = "";
+        }
+    });
+}
+</script>
+{% endblock %}

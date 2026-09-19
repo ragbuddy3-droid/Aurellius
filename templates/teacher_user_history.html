@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% set title = "History Siswa" %}
+{% set brand_title = "Bonibot/History User" %}
+
+{% block content %}
+<section class="books-layout">
+    <div class="books-shell">
+        <div class="books-hero">
+            <div>
+                <p class="teacher-eyebrow">Panel Guru</p>
+                <h1>History chat milik {{ target_user.name }}</h1>
+                <p>Guru dapat memantau riwayat percakapan siswa untuk melihat aktivitas penggunaan chatbot dan menghapus history bila diperlukan.</p>
+            </div>
+            <div class="books-action-buttons">
+                <a href="{{ url_for('teacher_users_page') }}" class="books-action-link books-action-edit">Kembali ke User</a>
+                <form method="post" action="{{ url_for('teacher_delete_user_history_page', user_id=target_user.id) }}" onsubmit="return confirm('Yakin ingin menghapus seluruh history chat siswa ini?');">
+                    <button type="submit" class="books-action-link books-action-delete">Hapus Semua History</button>
+                </form>
+            </div>
+        </div>
+
+        {% if items %}
+        <div class="books-list">
+            {% for item in items %}
+            <article class="books-card">
+                <div class="books-card-head">
+                    <div>
+                        <h2>{{ item.title }}</h2>
+                        <p>{{ item.date }} - {{ item.time }}</p>
+                    </div>
+                    <span class="books-status books-status-uploaded">chat #{{ item.id }}</span>
+                </div>
+
+                <div class="books-subsection">
+                    <h3>Pertanyaan</h3>
+                    <div class="books-notes">
+                        <p>{{ item.question }}</p>
+                    </div>
+                </div>
+
+                <div class="books-subsection">
+                    <h3>Jawaban Chatbot</h3>
+                    <div class="books-log-box books-answer-box">
+                        <pre>{{ item.answer }}</pre>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="books-empty-state">
+            <h2>Belum ada history chat</h2>
+            <p>Siswa ini belum memiliki riwayat percakapan yang tersimpan di database.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

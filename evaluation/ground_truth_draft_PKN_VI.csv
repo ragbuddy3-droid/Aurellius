@@ -1,0 +1,8 @@
+id,subject,grade,book_code,question,ground_truth,reference_chunks
+1,PKN,6,PKN_VI,Apa yang dimaksud dengan nilai-nilai Pancasila?,"Nilai-nilai Pancasila adalah nilai kebaikan yang penting dan berharga serta menjadi pedoman hidup bangsa Indonesia.","PKN_VI_CH0064; PKN_VI_CH0067"
+2,PKN,6,PKN_VI,Mengapa sila-sila Pancasila tidak dapat berdiri sendiri?,"Sila-sila Pancasila tidak dapat berdiri sendiri karena semuanya saling terhubung, saling menguatkan, dan harus diamalkan secara utuh.","PKN_VI_CH0053; PKN_VI_CH0068"
+3,PKN,6,PKN_VI,Dari mana Pancasila digali menurut Sukarno?,"Menurut Sukarno, Pancasila digali dari praktik hidup bangsa Indonesia.","PKN_VI_CH0068; PKN_VI_CH0077"
+4,PKN,6,PKN_VI,Mengapa pengalaman sehari-hari dapat menjadi sumber belajar Pancasila?,"Pengalaman sehari-hari dapat menjadi sumber belajar Pancasila karena dalam kehidupan sehari-hari terdapat banyak perbuatan baik dan praktik nilai-nilai Pancasila yang bisa diamati dan dipelajari.","PKN_VI_CH0064; PKN_VI_CH0077"
+5,PKN,6,PKN_VI,Apa yang dimaksud dengan ideologi negara Indonesia?,"Ideologi adalah cita-cita atau landasan yang dimiliki suatu bangsa. Ideologi bangsa dan negara Indonesia adalah Pancasila.","PKN_VI_CH0155"
+6,PKN,6,PKN_VI,Apa yang dimaksud dengan musyawarah untuk mufakat?,"Musyawarah untuk mufakat adalah cara mengambil keputusan bersama dengan mendengarkan pendapat semua pihak dan mengutamakan kepentingan umum.","PKN_VI_CH0342; PKN_VI_CH0344"
+7,PKN,6,PKN_VI,Mengapa musyawarah penting bagi persatuan dan kepentingan umum?,"Musyawarah penting karena melatih kita menghargai pendapat orang lain, menjaga persatuan, dan menghasilkan keputusan yang bermanfaat bagi banyak orang.","PKN_VI_CH0340; PKN_VI_CH0342"

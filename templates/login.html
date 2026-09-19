@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% set title = "Login" %}
+{% set brand_title = "Bonibot/Login" %}
+
+{% block content %}
+<section class="login-layout">
+    <div class="login-shell">
+        <div class="login-card">
+            <div class="login-card-head">
+                <p class="teacher-eyebrow">Masuk ke Sistem</p>
+                <h1>Login Admin / User</h1>
+                <p>Guru login sebagai admin untuk mengelola buku. Siswa login sebagai user untuk bertanya ke chatbot.</p>
+            </div>
+
+            {% if error %}
+            <div class="teacher-alert teacher-alert-error">
+                <strong>Login gagal.</strong>
+                <span>{{ error }}</span>
+            </div>
+            {% endif %}
+
+            <form method="post" class="login-form">
+                <label class="teacher-field">
+                    <span>Username</span>
+                    <input type="text" name="username" placeholder="Masukkan username" required>
+                </label>
+
+                <label class="teacher-field">
+                    <span>Password</span>
+                    <input type="password" name="password" placeholder="Masukkan password" required>
+                </label>
+
+                <button type="submit" class="teacher-submit login-submit">Login</button>
+            </form>
+
+            <a href="{{ url_for('register_page') }}" class="teacher-submit login-submit">Register</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

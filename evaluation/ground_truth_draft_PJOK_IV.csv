@@ -1,0 +1,8 @@
+id,subject,grade,book_code,question,ground_truth,reference_chunks
+1,PJOK,4,PJOK_IV,Apa yang dimaksud dengan pencak silat?,"Pencak silat adalah cabang olahraga bela diri yang berasal dari Indonesia dan merupakan warisan asli nenek moyang bangsa Indonesia.","PJOK_IV_CH0366"
+2,PJOK,4,PJOK_IV,Apa yang dimaksud dengan gerak lokomotor dalam pencak silat?,"Gerak lokomotor dalam pencak silat adalah gerak berpindah tempat yang dilakukan dengan gerak langkah untuk mendekati atau menjauhi lawan.","PJOK_IV_CH0376"
+3,PJOK,4,PJOK_IV,Apa yang dimaksud dengan gerak nonlokomotor dalam pencak silat?,"Gerak nonlokomotor dalam pencak silat adalah gerak yang dilakukan tanpa berpindah tempat.","PJOK_IV_CH0378"
+4,PJOK,4,PJOK_IV,Sebutkan empat bentuk sikap kuda-kuda dalam pencak silat.,"Empat bentuk sikap kuda-kuda dalam pencak silat adalah kuda-kuda depan, kuda-kuda belakang, kuda-kuda tengah, dan kuda-kuda samping.","PJOK_IV_CH0378; PJOK_IV_CH0379"
+5,PJOK,4,PJOK_IV,Apa fungsi sikap pasang dalam pencak silat?,"Sikap pasang berfungsi sebagai sikap siap menghadapi lawan untuk memulai atau membalas serangan serta mendukung pelaksanaan gerak dasar pencak silat.","PJOK_IV_CH0379"
+6,PJOK,4,PJOK_IV,Apa yang dimaksud dengan kebugaran jasmani?,"Kebugaran jasmani adalah kemampuan tubuh untuk melakukan aktivitas fisik dengan sungguh-sungguh tanpa mengalami kelelahan berlebihan dan masih memiliki tenaga untuk aktivitas lainnya.","PJOK_IV_CH0446; PJOK_IV_CH0480"
+7,PJOK,4,PJOK_IV,Mengapa aktivitas fisik penting untuk menjaga kebugaran jasmani?,"Aktivitas fisik penting karena merupakan cara untuk mewujudkan dan meningkatkan kebugaran jasmani, termasuk kekuatan, daya tahan, kecepatan, dan kelincahan.","PJOK_IV_CH0451; PJOK_IV_CH0480"

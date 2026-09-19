@@ -1,0 +1,7 @@
+bert-score
+datasets
+langchain-google-genai
+langchain-huggingface
+openpyxl
+pandas
+ragas
